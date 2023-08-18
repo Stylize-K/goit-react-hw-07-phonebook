@@ -8,12 +8,13 @@ import css from './App.module.css';
 
 export const App = () => {
   const count = useSelector(getContactsCount);
+  const { isLoading, error } = useSelector(state => state.contacts);
 
   return (
     <div
       style={{
-        padding: '20px 0 0 0',
-        height: '100vh',
+        padding: '20px 0 20px 0',
+        height: '100%',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-start',
@@ -29,6 +30,8 @@ export const App = () => {
         <span className={css.total_count}> {count}</span>
       </p>
       <Filter />
+      {isLoading === true && <h2>Loading...</h2>}
+      {error && <h2>An error occurred: {error}</h2>}
       <ContactList />
       <Toaster position="top-right" />
     </div>
