@@ -1,17 +1,24 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { getContacts } from 'services/apiService';
 
-//Початкове значення масива contacts у redux-стейті
+//Створюємо асинхроний thunk для отримання списку контактів з бекенду
+export const fetchContacts = createAsyncThunk(
+  'contacts/fetchAll',
+  async function (_, { rejectWithValue }) {
+    try {
+      const data = await getContacts();
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+//Початкове значення стейту у contactSlice
 const initialState = {
-  contacts: [
-    { id: 'id-1', name: 'Andriy Shevchenko', number: '+38-097-325-34-97' },
-    { id: 'id-2', name: 'Serhiy Rebrov', number: '+38-096-421-65-70' },
-    {
-      id: 'id-3',
-      name: 'Ruslan Rotan',
-      number: '+38-063-889-23-12',
-    },
-    { id: 'id-4', name: 'Andriy Yarmolenko', number: '+38-050-455-67-90' },
-  ],
+  items: [],
+  isLoading: false,
+  error: null,
 };
 
 //Створюємо contactsSlice
@@ -20,11 +27,26 @@ export const contactsSlice = createSlice({
   initialState,
   reducers: {
     addContact: (state, action) => {
-      state.contacts = [...state.contacts, action.payload];
+      state.items = [...state.items, action.payload];
       //   state.contacts.push(action.payload) - можна також напряму пушити масив, бо спрацює ліба Immer та виконує оновлення імутабельно
     },
     deleteContact: (state, action) => {
-      state.contacts = state.contacts.filter(el => el.id !== action.payload);
+      state.items = state.items.filter(el => el.id !== action.payload);
+    },
+  },
+  //Асинхроні редюсери (extraReducers)
+  extraReducers: {
+    [fetchContacts.pending]: state => {
+      state.isLoading = true;
+      state.error = null;
+    },
+    [fetchContacts.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.items = action.payload;
+    },
+    [fetchContacts.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
     },
   },
 });

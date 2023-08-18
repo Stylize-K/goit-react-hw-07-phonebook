@@ -1,11 +1,18 @@
 import { ContactListItem } from 'components/ContactListItem/ContactListItem';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getFilter, getContacts } from 'redux/selectors';
 import css from './ContactList.module.css';
+import { useEffect } from 'react';
+import { fetchContacts } from 'redux/contactsSlice';
 
 export const ContactList = () => {
   const filter = useSelector(getFilter);
   const contacts = useSelector(getContacts);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   //Функція фільтрації контактів
   const getFilteredContacts = () => {
