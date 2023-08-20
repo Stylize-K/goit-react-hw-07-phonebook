@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getFilter, getContacts } from 'redux/selectors';
 import css from './ContactList.module.css';
 import { useEffect } from 'react';
-import { fetchContacts } from 'redux/contactsSlice';
+// import { fetchContacts } from 'redux/contactsSlice';
+import { fetchContacts } from 'redux/operations';
 
 export const ContactList = () => {
   const filter = useSelector(getFilter);

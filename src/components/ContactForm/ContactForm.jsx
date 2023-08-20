@@ -3,8 +3,9 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { object, string } from 'yup';
 import { nanoid } from '@reduxjs/toolkit';
 import { useSelector, useDispatch } from 'react-redux';
-import { addContact } from 'redux/contactsSlice';
+// import { addContact } from 'redux/contactsSlice';
 import { getContacts } from 'redux/selectors';
+import { addContact } from 'redux/operations';
 import toast from 'react-hot-toast';
 import css from './ContactForm.module.css';
 
