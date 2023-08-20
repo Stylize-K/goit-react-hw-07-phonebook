@@ -7,7 +7,7 @@ const initialState = {
   isLoading: false,
   error: null,
 };
-
+//Винесемо логіку редюсерів, які обробляють pending та rejected екшени у функції, для оптимізацї коду
 const handlePending = state => {
   state.isLoading = true;
   state.error = null;
@@ -21,14 +21,17 @@ const handleRejected = (state, action) => {
 export const contactsSlice = createSlice({
   name: 'contacts',
   initialState,
-  //Асинхроні редюсери (extraReducers)
+  //Асинхроні редюсери (extraReducers). Властивість extraReducers використовується щоб оголосити редюсери для «зовнішніх» типів екшенів, тобто тих, які не згенеровані з властивості reducers. Оскільки ці редюсери обробляють «зовнішні» екшени, для них не буде створено генератори екшенів в slice.actions, в цьому немає необхідності.
   extraReducers: {
+    //Fetch contacts
     [fetchContacts.pending]: handlePending,
     [fetchContacts.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.items = action.payload;
     },
     [fetchContacts.rejected]: handleRejected,
+
+    //Add contact
     [addContact.pending]: handlePending,
     [addContact.fulfilled]: (state, action) => {
       state.isLoading = false;
@@ -37,6 +40,8 @@ export const contactsSlice = createSlice({
       // state.items.push(action.payload); // можна також напряму пушити масив, бо спрацює ліба Immer та виконує оновлення імутабельно
     },
     [addContact.rejected]: handleRejected,
+
+    //Delete contact
     [deleteContact.pending]: handlePending,
     [deleteContact.fulfilled]: (state, action) => {
       state.isLoading = false;

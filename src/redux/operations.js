@@ -22,7 +22,7 @@ export const addContact = createAsyncThunk(
   'contacts/addContact',
   async function (contact, { rejectWithValue }) {
     try {
-      const { data } = await axios.post('/contacts', contact);
+      const { data } = await axios.post('/contacts', contact); //другим параметром передаємо об'єкт даних
       return data;
     } catch (error) {
       return rejectWithValue(error.message);
