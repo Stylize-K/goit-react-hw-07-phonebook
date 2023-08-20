@@ -7,21 +7,22 @@ axios.defaults.baseURL =
 //Функція, що фетчить список контактів бекенду (mockapi.io)
 export const getContacts = async () => {
   const { data } = await axios({
-    params: {
-      limit: 10,
-      page: 1,
-    },
+    // params: {
+    //   limit: 10,
+    //   page: 1,
+    // },
   });
   return data;
 };
 
-// //Функція, що фетчить список фільмів за ключевим словом (для сторінки Movies)
-// export const fetchMovies = async query => {
-//   axios.defaults.baseURL = 'https://api.themoviedb.org/3/search/movie';
-//   const { data } = await axios({
-//     // params: {
-//     //   query,
-//     // },
-//   });
-//   return data;
-// };
+//Функція, що додає новий контакт
+export const postContact = async contact => {
+  const { data } = await axios.post(contact);
+  return data;
+};
+
+//Функція, що видаляє контакт
+export const removeContact = async contactId => {
+  const { data } = await axios.delete(`${contactId}`);
+  return data;
+};
