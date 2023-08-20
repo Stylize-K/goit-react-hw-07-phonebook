@@ -1,10 +1,8 @@
 import { FcAddDatabase } from 'react-icons/fc';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { object, string } from 'yup';
-import { nanoid } from '@reduxjs/toolkit';
 import { useSelector, useDispatch } from 'react-redux';
-// import { addContact } from 'redux/contactsSlice';
-import { getContacts } from 'redux/selectors';
+import { selectContacts } from 'redux/selectors';
 import { addContact } from 'redux/operations';
 import toast from 'react-hot-toast';
 import css from './ContactForm.module.css';
@@ -19,7 +17,7 @@ const schema = object({
   name: string()
     .matches(regexName, 'Name is not valid')
     .min(2, 'Name too short')
-    .max(15, 'Name too short')
+    .max(15, 'Name too long')
     .trim()
     .required('Name is required'),
   number: string()
@@ -31,18 +29,13 @@ const schema = object({
 });
 
 export const ContactForm = () => {
-  const contacts = useSelector(getContacts);
+  const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
 
   //Початкові значення полів форми для Formik
   const initialValues = {
     name: '',
     number: '',
-  };
-
-  //Функція генерації id. Сама Функція nanoid() приймає необов'язковий аргумент, що задає довжину id
-  const generetedId = () => {
-    return nanoid(5);
   };
 
   //Функція обробки сабміту форми - додавання нового контакту в стор при сабміті форми
@@ -53,7 +46,7 @@ export const ContactForm = () => {
       return;
     }
     dispatch(
-      addContact({ id: generetedId(), name: data.name, number: data.number }) //Відправляємо action addContact в redux store
+      addContact({ name: data.name, phone: data.number }) //Відправляємо action addContact в redux store
     );
   };
 
