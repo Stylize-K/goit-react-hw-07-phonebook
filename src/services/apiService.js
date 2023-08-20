@@ -17,7 +17,10 @@ export const getContacts = async () => {
 
 //Функція, що додає новий контакт
 export const postContact = async contact => {
-  const { data } = await axios.post(contact);
+  const { data } = await axios.post(
+    'https://64de3533825d19d9bfb24a71.mockapi.io/contacts/contacts',
+    contact
+  );
   return data;
 };
 
