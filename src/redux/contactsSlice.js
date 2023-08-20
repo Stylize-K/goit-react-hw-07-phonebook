@@ -51,5 +51,4 @@ export const contactsSlice = createSlice({
   },
 });
 
-// export const { addContact, deleteContact } = contactsSlice.actions; // Експортуємо actions у зовнішній код
 export const contactsReducer = contactsSlice.reducer; // Експортуємо filterReducer у зовнішній код
