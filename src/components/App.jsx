@@ -1,14 +1,22 @@
 import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
-import { useSelector } from 'react-redux';
-import { getContactsCount } from 'redux/selectors';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectContactsCount } from 'redux/selectors';
 import { Toaster } from 'react-hot-toast';
+import { useEffect } from 'react';
+import { fetchContacts } from 'redux/operations';
+
 import css from './App.module.css';
 
 export const App = () => {
-  const count = useSelector(getContactsCount);
+  const count = useSelector(selectContactsCount);
   const { isLoading, error } = useSelector(state => state.contacts);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   return (
     <div
