@@ -24,3 +24,9 @@
 .total_count {
   font-weight: 700;
 }
+
+.errorMessage {
+  margin-top: 70px;
+  color: red;
+  font-weight: 500;
+}
