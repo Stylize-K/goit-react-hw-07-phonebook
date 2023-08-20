@@ -2,7 +2,11 @@ import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectContactsCount } from 'redux/selectors';
+import {
+  selectContactsCount,
+  selectIsLoading,
+  selectError,
+} from 'redux/selectors';
 import { Toaster } from 'react-hot-toast';
 import { useEffect } from 'react';
 import { fetchContacts } from 'redux/operations';
@@ -12,7 +16,8 @@ import css from './App.module.css';
 
 export const App = () => {
   const count = useSelector(selectContactsCount);
-  const { isLoading, error } = useSelector(state => state.contacts);
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -29,7 +34,7 @@ export const App = () => {
         <span className={css.total_count}> {count}</span>
       </p>
       <Filter />
-      {isLoading === true && (
+      {isLoading && !error && (
         <ColorRing
           visible={true}
           height="80"
@@ -40,7 +45,7 @@ export const App = () => {
           colors={['#e15b64', '#f47e60', '#f8b26a', '#4bb36a', '#80bb3d']}
         />
       )}
-      {error && <h2>An error occurred: {error}</h2>}
+      {error && <p className={css.errorMessage}>An error occurred: {error}</p>}
       <ContactList />
       <Toaster position="top-right" />
     </div>
