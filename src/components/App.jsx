@@ -20,17 +20,7 @@ export const App = () => {
   }, [dispatch]);
 
   return (
-    <div
-      style={{
-        padding: '20px 0 20px 0',
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        color: '#010101',
-      }}
-    >
+    <div className={css.container}>
       <h1 className={css.title}>Phonebook</h1>
       <ContactForm />
       <h2 className={css.subtitle}>Contacts</h2>
